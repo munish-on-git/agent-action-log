@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Case File — Agent Action Log</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#14161A;
+    --panel:#1C1F24;
+    --panel-border:#2A2E35;
+    --ink:#EDEAE3;
+    --ink-dim:#8B9099;
+    --verified:#3FA796;
+    --tamper:#E2574C;
+    --tag:#D98E3F;
+    --mono:#9AA3AD;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:48px 24px 96px;}
+
+  header{border-bottom:1px solid var(--panel-border);padding-bottom:28px;margin-bottom:36px;}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--tag);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:"Space Grotesk",sans-serif;
+    font-weight:700;
+    font-size:clamp(28px,4vw,40px);
+    margin:0 0 12px;
+    letter-spacing:-.01em;
+  }
+  .sub{color:var(--ink-dim);font-size:15px;max-width:60ch;line-height:1.5;margin:0;}
+
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-dim);
+  }
+  .meta-chip{
+    border:1px solid var(--panel-border);
+    padding:6px 10px;border-radius:3px;
+    background:var(--panel);
+  }
+  .meta-chip b{color:var(--ink);font-weight:500;}
+
+  #status{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink-dim);margin-bottom:24px;}
+
+  .ledger{position:relative;padding-left:24px;}
+  .ledger::before{
+    content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;
+    background:repeating-linear-gradient(var(--panel-border) 0 6px, transparent 6px 12px);
+  }
+
+  .exhibit{
+    position:relative;
+    background:var(--panel);
+    border:1px solid var(--panel-border);
+    border-radius:4px;
+    padding:20px 22px;
+    margin-bottom:16px;
+  }
+  .exhibit::before{
+    content:"";position:absolute;left:-24px;top:24px;width:9px;height:9px;
+    border-radius:50%;background:var(--bg);border:2px solid var(--panel-border);
+  }
+  .exhibit.verified::before{border-color:var(--verified);}
+  .exhibit.tampered::before{border-color:var(--tamper);}
+  .exhibit.pending::before{border-color:var(--tag);}
+
+  .exhibit-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;}
+  .exhibit-id{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-dim);letter-spacing:.06em;}
+  .exhibit-type{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:18px;margin:4px 0 0;}
+
+  .stamp{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    padding:5px 10px;border-radius:3px;border:1px solid currentColor;
+    transform:rotate(-2deg);white-space:nowrap;
+  }
+  .stamp.verified{color:var(--verified);}
+  .stamp.tampered{color:var(--tamper);}
+  .stamp.pending{color:var(--tag);}
+
+  .reasoning{color:var(--ink-dim);font-size:14px;line-height:1.55;margin:12px 0 14px;}
+  .reasoning em{color:var(--ink);font-style:normal;}
+
+  .hashes{
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--mono);
+    display:grid;grid-template-columns:auto 1fr;gap:4px 12px;
+    border-top:1px dashed var(--panel-border);padding-top:12px;
+  }
+  .hashes span:nth-child(odd){color:var(--ink-dim);}
+  .hashes a{color:var(--mono);text-decoration:none;border-bottom:1px dotted var(--mono);}
+  .hashes a:hover{color:var(--ink);}
+
+  .empty{
+    border:1px dashed var(--panel-border);border-radius:4px;padding:32px;
+    text-align:center;color:var(--ink-dim);font-size:14px;
+  }
+
+  footer{margin-top:40px;color:var(--ink-dim);font-size:12px;font-family:"IBM Plex Mono",monospace;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Case File · Onchain Provenance</div>
+    <h1>Agent Action Log</h1>
+    <p class="sub">Every row below is a real action, committed to Monad the moment it happened — not written by the agent about itself after the fact. Each commitment is checked against the offchain detail record; a mismatch would mean the record was altered post-commit.</p>
+    <div class="meta-row">
+      <span class="meta-chip">Network: <b id="networkLabel">—</b></span>
+      <span class="meta-chip">Contract: <b id="contractLabel">—</b></span>
+      <span class="meta-chip">Agent: <b id="agentLabel">—</b></span>
+    </div>
+  </header>
+
+  <div id="status">Connecting to Monad…</div>
+  <div id="ledger" class="ledger"></div>
+
+  <footer>Polling every 5s for new commitments · read-only RPC, no wallet required to view</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+<script>
+// ---- Configure for your deployment, or override via URL: ?contract=0x..&rpc=..&agent=.. ----
+const CONFIG = {
+  contractAddress: "0x4F4B2b29A08A4C36B85c3889C28F5Dd34E760e4b",
+  rpcUrl: "https://testnet-rpc.monad.xyz",
+  networkName: "Monad Testnet",
+  agentId: "demo-coding-agent-1",
+  offchainLogUrl: "./offchain-log.json", // adjust if you host this file elsewhere
+};
+
+const ABI = [
+  "function getActionCount(bytes32 agentId) external view returns (uint256)",
+  "function getAction(bytes32 agentId, uint256 index) external view returns (tuple(address owner,bytes32 agentId,bytes32 actionTypeHash,bytes32 paramsHash,bytes32 reasoningHash,uint64 timestamp))",
+];
+
+const params = new URLSearchParams(location.search);
+const contractAddress = params.get("contract") || CONFIG.contractAddress;
+const rpcUrl = params.get("rpc") || CONFIG.rpcUrl;
+const agentIdStr = params.get("agent") || CONFIG.agentId;
+
+document.getElementById("networkLabel").textContent = CONFIG.networkName;
+document.getElementById("contractLabel").textContent = short(contractAddress);
+document.getElementById("agentLabel").textContent = agentIdStr;
+
+function short(addr){ return addr && addr.length > 10 ? addr.slice(0,6)+"…"+addr.slice(-4) : addr; }
+function shortHash(h){ return h ? h.slice(0,10)+"…"+h.slice(-6) : "—"; }
+function keccak(str){ return ethers.keccak256(ethers.toUtf8Bytes(str)); }
+function explorerTx(hash){ return `https://testnet.monadexplorer.com/tx/${hash}`; }
+
+async function loadOffchain(){
+  try{
+    const res = await fetch(CONFIG.offchainLogUrl, { cache: "no-store" });
+    if(!res.ok) return [];
+    return await res.json();
+  }catch(e){ return []; }
+}
+
+async function main(){
+  const statusEl = document.getElementById("status");
+  const ledgerEl = document.getElementById("ledger");
+
+  let provider, contract;
+  try{
+    provider = new ethers.JsonRpcProvider(rpcUrl);
+    contract = new ethers.Contract(contractAddress, ABI, provider);
+  }catch(e){
+    statusEl.textContent = "Could not connect — check contract address and RPC URL.";
+    return;
+  }
+
+  async function refresh(){
+    const agentIdHash = keccak(agentIdStr);
+    let count;
+    try{
+      count = Number(await contract.getActionCount(agentIdHash));
+    }catch(e){
+      statusEl.textContent = "No contract found at that address on this network yet.";
+      return;
+    }
+
+    if(count === 0){
+      statusEl.textContent = "Connected. No actions committed for this agent yet — run the demo agent.";
+      ledgerEl.innerHTML = `<div class="empty">No exhibits filed yet. Run <code>npm run demo</code> in /agent to generate the first entries.</div>`;
+      return;
+    }
+
+    statusEl.textContent = `Connected. ${count} action${count===1?"":"s"} committed onchain for this agent.`;
+
+    const offchain = await loadOffchain();
+
+    const rows = [];
+    for(let i = 0; i < count; i++){
+      const rec = await contract.getAction(agentIdHash, i);
+      const match = offchain.find(r =>
+        r.hashes && r.hashes.paramsHash === rec.paramsHash &&
+        r.hashes.actionTypeHash === rec.actionTypeHash &&
+        r.hashes.reasoningHash === rec.reasoningHash
+      );
+
+      let statusClass = "pending", stampText = "ONCHAIN ONLY";
+      if(match){
+        const recomputed = {
+          type: keccak(match.type),
+          params: keccak(JSON.stringify(match.params)),
+          reasoning: keccak(match.reasoning),
+        };
+        const ok = recomputed.type === rec.actionTypeHash &&
+                   recomputed.params === rec.paramsHash &&
+                   recomputed.reasoning === rec.reasoningHash;
+        statusClass = ok ? "verified" : "tampered";
+        stampText = ok ? "VERIFIED MATCH" : "HASH MISMATCH";
+      }
+
+      const ts = new Date(Number(rec.timestamp) * 1000).toLocaleString();
+
+      rows.push(`
+        <div class="exhibit ${statusClass}">
+          <div class="exhibit-top">
+            <div>
+              <div class="exhibit-id">EXHIBIT #${String(i).padStart(3,"0")} · ${ts}</div>
+              <div class="exhibit-type">${match ? match.type : "(offchain detail unavailable)"}</div>
+            </div>
+            <div class="stamp ${statusClass}">${stampText}</div>
+          </div>
+          ${match ? `<p class="reasoning"><em>Reasoning:</em> ${escapeHtml(match.reasoning)}</p>` : ""}
+          <div class="hashes">
+            <span>action</span><span>${shortHash(rec.actionTypeHash)}</span>
+            <span>params</span><span>${shortHash(rec.paramsHash)}</span>
+            <span>reasoning</span><span>${shortHash(rec.reasoningHash)}</span>
+            ${match ? `<span>tx</span><span><a href="${explorerTx(match.txHash)}" target="_blank" rel="noopener">${shortHash(match.txHash)} ↗</a></span>` : ""}
+          </div>
+        </div>
+      `);
+    }
+    ledgerEl.innerHTML = rows.reverse().join("");
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+
+  await refresh();
+  setInterval(refresh, 5000);
+}
+
+main();
+</script>
+</body>
+</html>
