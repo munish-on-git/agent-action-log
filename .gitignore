@@ -1,0 +1,7 @@
+node_modules/
+.env
+agent/offchain-log.json
+agent/agent-notes.txt
+contracts/out/
+contracts/cache/
+contracts/broadcast/

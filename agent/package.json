@@ -1,0 +1,13 @@
+{
+  "name": "agent-action-log-demo",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Demo agent that performs real actions through the AgentActionLog interceptor",
+  "scripts": {
+    "demo": "node demo-agent.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.2"
+  }
+}
