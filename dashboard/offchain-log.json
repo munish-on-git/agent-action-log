@@ -265,5 +265,183 @@
     "txHash": "0xd0fa32aef97fe07c7ef54db2d9b1fa88ab4b422f73e95b9fb3cf291a0d5ded5b",
     "blockNumber": 46313670,
     "committedAt": "2026-07-19T16:24:38.790Z"
+  },
+  {
+    "agent": "demo-coding-agent-1",
+    "type": "read_file",
+    "params": {
+      "path": "./package.json",
+      "bytes": 304
+    },
+    "reasoning": "Inspecting package.json to check dependencies before running the task.",
+    "hashes": {
+      "agentId": "0x701bdf4e42a573cd981c6fc7e8af7168650892f44c5a67723bbe78111102cb46",
+      "actionTypeHash": "0x9072588bf1554b5370859c608e32d9fa41bc74f75515899189472eb04e42aa60",
+      "paramsHash": "0x73531c3af0637fb9fbab8c322a23d371bdb19cbb9e6f59d27b1ce27febdfb344",
+      "reasoningHash": "0xf246b81420c7f3dc6712d5b25677a832fd372dfd5f73d1823e8b781074aaf1cc"
+    },
+    "txHash": "0x071e364092a1e4a9adb4c63a84e9cc8282b2200267ee4c2c2ef61f30593dad60",
+    "blockNumber": 46340919,
+    "committedAt": "2026-07-19T18:41:49.918Z"
+  },
+  {
+    "agent": "demo-coding-agent-1",
+    "type": "write_file",
+    "params": {
+      "path": "./agent-notes.txt",
+      "content": "Agent run started 2026-07-19T18:41:49.922Z\n"
+    },
+    "reasoning": "Recording a timestamped note for this run so progress can be tracked.",
+    "hashes": {
+      "agentId": "0x701bdf4e42a573cd981c6fc7e8af7168650892f44c5a67723bbe78111102cb46",
+      "actionTypeHash": "0x70ebbd12c6cd43dd2a13cd780e80f2d9404e18dd3825ba5db63f9b953d173659",
+      "paramsHash": "0xb6f536acd0869365232f8093bf46615619be34fb68f39b173560c7fa2303ccc9",
+      "reasoningHash": "0xc572f62a19a9ec016ebf92e7b632f676b5a72fbe7a3e53e9b2e0b1a0e6cc7463"
+    },
+    "txHash": "0xa42a55fa75ee381e4bb812ac449925621915511fe17f689413d859ee1ba3b00b",
+    "blockNumber": 46340925,
+    "committedAt": "2026-07-19T18:41:51.795Z"
+  },
+  {
+    "agent": "demo-coding-agent-1",
+    "type": "api_call",
+    "params": {
+      "url": "https://api.github.com/repos/monad-developers/foundry-monad",
+      "stars": 63
+    },
+    "reasoning": "Checking the foundry-monad template's star count as part of research.",
+    "hashes": {
+      "agentId": "0x701bdf4e42a573cd981c6fc7e8af7168650892f44c5a67723bbe78111102cb46",
+      "actionTypeHash": "0x1e4f0b4391cb116471911fdd339a7aa72a159ecdebc290c675e0ab143090e583",
+      "paramsHash": "0xfbad2f4a9ef52709fd7cb2b942f8df6720e6a149115263dfee8ea1a1cc90ec53",
+      "reasoningHash": "0x802e12091eeeae0bfd3787f79d02f821f848846d044b81bcc794b5e5d83f2405"
+    },
+    "txHash": "0xc0361117e89efb81b2443d26baa21226e30cc897496b1bdefb157580562237ec",
+    "blockNumber": 46340933,
+    "committedAt": "2026-07-19T18:41:54.258Z"
+  },
+  {
+    "agent": "demo-coding-agent-1",
+    "type": "edit_file",
+    "params": {
+      "path": "./agent-notes.txt",
+      "appended": "Follow-up: foundry-monad has 63 stars."
+    },
+    "reasoning": "Appending the API result to the notes file for the run summary.",
+    "hashes": {
+      "agentId": "0x701bdf4e42a573cd981c6fc7e8af7168650892f44c5a67723bbe78111102cb46",
+      "actionTypeHash": "0x25b4bb551e6846c34d945ce4ac64cb470c9282afde9039a29ae02c03ad3d6dfa",
+      "paramsHash": "0x1fbfccf8294392e7807b6b4f32c4e2905da7c807de56c4d0b2fdf34d47d7167a",
+      "reasoningHash": "0x32ec9ca034445f4895cb575e2f6c443c4e0b2212c852c3feac990e17ae8b2ae3"
+    },
+    "txHash": "0x5689cec0b0464e27df0094e2ad49856f6e8e4329221d1a89cbdfe377cddd3652",
+    "blockNumber": 46340939,
+    "committedAt": "2026-07-19T18:41:56.152Z"
+  },
+  {
+    "agent": "demo-coding-agent-1",
+    "type": "delete_file",
+    "params": {
+      "path": "./agent-notes.txt"
+    },
+    "reasoning": "Removing the temporary notes file now that the run summary is committed.",
+    "hashes": {
+      "agentId": "0x701bdf4e42a573cd981c6fc7e8af7168650892f44c5a67723bbe78111102cb46",
+      "actionTypeHash": "0x863513787ec0cb6f7bde39cf71de27806c61864594dec2fedd776f8af8b129c9",
+      "paramsHash": "0xd6edbb387adef687266c7fa53a676399ffd1a260c7e7d949df57db04f231646e",
+      "reasoningHash": "0x29a0004a36931cba227d2c671ced8448d48a4941370dca34864bc27f5623d419"
+    },
+    "txHash": "0xd969b1658ebed25b37cb3fb6e3485e3915d6658e1fb05b750b5a6567cfbcf5b3",
+    "blockNumber": 46340945,
+    "committedAt": "2026-07-19T18:41:57.902Z"
+  },
+  {
+    "agent": "demo-coding-agent-1",
+    "type": "read_file",
+    "params": {
+      "path": "./package.json",
+      "bytes": 304
+    },
+    "reasoning": "Inspecting package.json to check dependencies before running the task.",
+    "hashes": {
+      "agentId": "0x701bdf4e42a573cd981c6fc7e8af7168650892f44c5a67723bbe78111102cb46",
+      "actionTypeHash": "0x9072588bf1554b5370859c608e32d9fa41bc74f75515899189472eb04e42aa60",
+      "paramsHash": "0x73531c3af0637fb9fbab8c322a23d371bdb19cbb9e6f59d27b1ce27febdfb344",
+      "reasoningHash": "0xf246b81420c7f3dc6712d5b25677a832fd372dfd5f73d1823e8b781074aaf1cc"
+    },
+    "txHash": "0x89b25474bd53d857ec60a446715c3f1661f988740b18fa880c345753fd18fa0c",
+    "blockNumber": 46342701,
+    "committedAt": "2026-07-19T18:50:47.396Z"
+  },
+  {
+    "agent": "demo-coding-agent-1",
+    "type": "write_file",
+    "params": {
+      "path": "./agent-notes.txt",
+      "content": "Agent run started 2026-07-19T18:50:47.399Z\n"
+    },
+    "reasoning": "Recording a timestamped note for this run so progress can be tracked.",
+    "hashes": {
+      "agentId": "0x701bdf4e42a573cd981c6fc7e8af7168650892f44c5a67723bbe78111102cb46",
+      "actionTypeHash": "0x70ebbd12c6cd43dd2a13cd780e80f2d9404e18dd3825ba5db63f9b953d173659",
+      "paramsHash": "0x9665d9c2e66be8e0b1ac0fd0a9a275c91be64d1785146cdcacd339882f1fad25",
+      "reasoningHash": "0xc572f62a19a9ec016ebf92e7b632f676b5a72fbe7a3e53e9b2e0b1a0e6cc7463"
+    },
+    "txHash": "0x49d25f653ab1c6123391843bd9c9f38dc2a5eb57af0b314f95c018bb23ada740",
+    "blockNumber": 46342707,
+    "committedAt": "2026-07-19T18:50:49.260Z"
+  },
+  {
+    "agent": "demo-coding-agent-1",
+    "type": "api_call",
+    "params": {
+      "url": "https://api.github.com/repos/monad-developers/foundry-monad",
+      "stars": 63
+    },
+    "reasoning": "Checking the foundry-monad template's star count as part of research.",
+    "hashes": {
+      "agentId": "0x701bdf4e42a573cd981c6fc7e8af7168650892f44c5a67723bbe78111102cb46",
+      "actionTypeHash": "0x1e4f0b4391cb116471911fdd339a7aa72a159ecdebc290c675e0ab143090e583",
+      "paramsHash": "0xfbad2f4a9ef52709fd7cb2b942f8df6720e6a149115263dfee8ea1a1cc90ec53",
+      "reasoningHash": "0x802e12091eeeae0bfd3787f79d02f821f848846d044b81bcc794b5e5d83f2405"
+    },
+    "txHash": "0x0c963af6fa7506daa60375b5bd2ce7950ebf046c7b858ce79d4ad67bbac942d6",
+    "blockNumber": 46342716,
+    "committedAt": "2026-07-19T18:50:52.638Z"
+  },
+  {
+    "agent": "demo-coding-agent-1",
+    "type": "edit_file",
+    "params": {
+      "path": "./agent-notes.txt",
+      "appended": "Follow-up: foundry-monad has 63 stars."
+    },
+    "reasoning": "Appending the API result to the notes file for the run summary.",
+    "hashes": {
+      "agentId": "0x701bdf4e42a573cd981c6fc7e8af7168650892f44c5a67723bbe78111102cb46",
+      "actionTypeHash": "0x25b4bb551e6846c34d945ce4ac64cb470c9282afde9039a29ae02c03ad3d6dfa",
+      "paramsHash": "0x1fbfccf8294392e7807b6b4f32c4e2905da7c807de56c4d0b2fdf34d47d7167a",
+      "reasoningHash": "0x32ec9ca034445f4895cb575e2f6c443c4e0b2212c852c3feac990e17ae8b2ae3"
+    },
+    "txHash": "0xeed891120ca0c5c5edb0e8e10502b6a07063d3f3172e2a57086500a2677b94c6",
+    "blockNumber": 46342725,
+    "committedAt": "2026-07-19T18:50:54.685Z"
+  },
+  {
+    "agent": "demo-coding-agent-1",
+    "type": "delete_file",
+    "params": {
+      "path": "./agent-notes.txt"
+    },
+    "reasoning": "Removing the temporary notes file now that the run summary is committed.",
+    "hashes": {
+      "agentId": "0x701bdf4e42a573cd981c6fc7e8af7168650892f44c5a67723bbe78111102cb46",
+      "actionTypeHash": "0x863513787ec0cb6f7bde39cf71de27806c61864594dec2fedd776f8af8b129c9",
+      "paramsHash": "0xd6edbb387adef687266c7fa53a676399ffd1a260c7e7d949df57db04f231646e",
+      "reasoningHash": "0x29a0004a36931cba227d2c671ced8448d48a4941370dca34864bc27f5623d419"
+    },
+    "txHash": "0xde1a9f8fa45beb97ebeece3e119b2d5e6714799c79214c4f59ca4fb329c499d7",
+    "blockNumber": 46342734,
+    "committedAt": "2026-07-19T18:50:57.520Z"
   }
 ]
