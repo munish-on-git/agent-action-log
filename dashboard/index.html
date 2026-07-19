@@ -208,13 +208,17 @@ async function main(){
     const rows = [];
     for(let i = 0; i < count; i++){
       const rec = await contract.getAction(agentIdHash, i);
-      // Positional pairing: the onchain array and offchain-log.json grow in exact
+      // Positional match: the onchain array and offchain-log.json grow in exact
       // lockstep (one logAction call -> one offchain append, same order), so index i
-      // always pairs with the offchain entry at the same index. Use the positional
-      // candidate for display (this avoids grabbing an earlier duplicate when
-      // multiple runs produce identical hashes for the same static action).
+      // always pairs correctly. Matching by hash content alone breaks when two
+      // separate runs happen to log an identical action (same type/params/reasoning),
+      // since that produces identical hashes and .find() would grab the wrong one.
       const candidate = offchain[i];
-      const match = candidate || null;
+      const candidateMatches = candidate && candidate.hashes &&
+        candidate.hashes.paramsHash === rec.paramsHash &&
+        candidate.hashes.actionTypeHash === rec.actionTypeHash &&
+        candidate.hashes.reasoningHash === rec.reasoningHash;
+      const match = candidateMatches ? candidate : null;
       let statusClass = "pending", stampText = "ONCHAIN ONLY";
       if(match){
         const recomputed = {
