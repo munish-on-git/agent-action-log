@@ -82,17 +82,3 @@ or just edit the `CONFIG` object at the top of the `<script>` tag directly, sinc
 that's simpler for a one-off hackathon deploy. Deploy the `dashboard/` folder as a
 static site (Vercel/Netlify/GitHub Pages) — that hosted URL is your submission's
 Project URL.
-
-## Rule-by-rule
-- **New project** — `git init` this folder fresh at the start of your build window; don't carry over an old repo's history.
-- **Solo** — single agent, single contract, single dashboard. No team split needed.
-- **Onchain on Monad** — every action is a real `logAction` transaction; nothing here is decorative.
-- **No static placeholder data** — the dashboard reads live from the chain via RPC and polls every 5s; run `npm run demo` on camera and watch new exhibits appear.
-- **Demo video (<3 min)** — problem (20s) → run `npm run demo` live while the dashboard updates (60s) → click a tx link, show it on the explorer, show the VERIFIED MATCH stamp (40s) → why Monad's speed made the inline await possible (30s).
-- **Hosted web demo + public repo** — deploy `dashboard/` as your Project URL; push the whole folder as a public GitHub repo with this README as-is.
-- **Avoiding AI slop / the tutorial special** — this isn't a todo app or weather dashboard; the evidence-ledger UI and the actual hash-verification logic are the distinct, defensible parts. Keep it that way — don't bolt on unrelated features.
-- **Avoiding vaporware** — the "commit" flow is a real transaction with a real tx hash you can click through to MonadVision, not a toast.
-
-## Notes
-- Only hashes go onchain — keeps gas low and avoids leaking action detail publicly, while still making tampering with `offchain-log.json` detectable (the dashboard will show HASH MISMATCH).
-- To go from testnet → mainnet: swap `eth-rpc-url`/`chain_id` in `foundry.toml` per the comment at the bottom of that file, redeploy, and use `--chain 143` when verifying.
